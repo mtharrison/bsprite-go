@@ -1,32 +1,32 @@
 package bsprite
 
 import (
-"path/filepath"
-"io/ioutil"
-"log"
-"mime"
-"encoding/json"
-"strconv"
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"mime"
+	"path/filepath"
+	"strconv"
 )
 
 type Sprite struct {
-	Images []SpriteImage 
+	Images   []SpriteImage
 	Metadata []byte
 }
 
 type SpriteImage struct {
-	data []byte
-	name string
-	offset int
-	length int
+	data     []byte
+	name     string
+	offset   int
+	length   int
 	mimeType string
 }
 
 type MetadataSpec struct {
-	Name string
+	Name     string
 	MimeType string
-	Offset int
-	Length int
+	Offset   int
+	Length   int
 }
 
 type Metadata []MetadataSpec
@@ -60,12 +60,12 @@ func (sprite Sprite) Body() []byte {
 }
 
 func Make(globs ...string) (err error, sprite Sprite) {
-	
+
 	bytePointer := 0
 
-	files := getFiles(globs)	
+	files := getFiles(globs)
 
-	for _,file := range files {
+	for _, file := range files {
 
 		bytes, err := ioutil.ReadFile(file)
 
@@ -73,11 +73,11 @@ func Make(globs ...string) (err error, sprite Sprite) {
 			log.Fatal(err)
 		}
 
-		spriteImage := SpriteImage {
-			data: bytes,
-			name: file,
-			length: len(bytes),
-			offset: bytePointer,
+		spriteImage := SpriteImage{
+			data:     bytes,
+			name:     file,
+			length:   len(bytes),
+			offset:   bytePointer,
 			mimeType: mime.TypeByExtension(filepath.Ext(file)),
 		}
 
@@ -88,7 +88,7 @@ func Make(globs ...string) (err error, sprite Sprite) {
 	}
 
 	sprite.Metadata = getMetaDataJSON(sprite)
-	
+
 	return
 }
 
@@ -96,11 +96,11 @@ func getMetaDataJSON(sprite Sprite) []byte {
 	var metadata Metadata
 
 	for _, i := range sprite.Images {
-		m := MetadataSpec {
-			Name: i.name,
+		m := MetadataSpec{
+			Name:     i.name,
 			MimeType: i.mimeType,
-			Offset: i.offset,
-			Length: i.length,
+			Offset:   i.offset,
+			Length:   i.length,
 		}
 
 		metadata = append(metadata, m)
@@ -112,7 +112,6 @@ func getMetaDataJSON(sprite Sprite) []byte {
 }
 
 // func GetAll(globs ...string) (err error, headers map[string]string, body []byte) {
-
 
 // }
 
