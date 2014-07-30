@@ -3,7 +3,7 @@ bsprite-go
 
 **Experimental**
 
-[See original post](matt-harrison.com/bsprites-a-new-way-of-serving-combined-resources-with-arraybuffer-and-data-uris/)
+[See original post](http://matt-harrison.com/bsprites-a-new-way-of-serving-combined-resources-with-arraybuffer-and-data-uris/)
 
 A go package for creating bsprites (binary sprites). BSprites are a combined set of web resources (anything that accepts a data URI) transferred over a single HTTP request which contain all the metadata required to parse them into the separate resources on the client side. They only work in browsers that support Data URIs and Typed arrays. You can mix and match different mime types in the same sprite 'package', e.g. svg, jpg, mp3 can be combined into a single named resource package.
 
