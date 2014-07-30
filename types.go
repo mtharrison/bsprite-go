@@ -3,6 +3,7 @@ package bsprite
 type Sprite struct {
 	Images   []SpriteImage
 	Metadata []byte
+	MetadataOffset int
 }
 
 type SpriteImage struct {

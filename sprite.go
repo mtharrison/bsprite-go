@@ -11,7 +11,7 @@ import (
 
 func (sprite Sprite) Headers() map[string]string {
 	headers := make(map[string]string)
-	headers["X-Metadata-Length"] = strconv.Itoa(len(sprite.Metadata))
+	headers["X-Metadata-Offset"] = strconv.Itoa(sprite.MetadataOffset)
 	headers["Content-type"] = "application/octet-stream"
 	return headers
 }
@@ -19,14 +19,14 @@ func (sprite Sprite) Headers() map[string]string {
 func (sprite Sprite) Body() []byte {
 	var sum []byte
 
-	for i := 0; i < len(sprite.Metadata); i++ {
-		sum = append(sum, sprite.Metadata[i])
-	}
-
 	for _, img := range sprite.Images {
 		for i := 0; i < len(img.data); i++ {
 			sum = append(sum, img.data[i])
 		}
+	}
+
+	for i := 0; i < len(sprite.Metadata); i++ {
+		sum = append(sum, sprite.Metadata[i])
 	}
 
 	return sum
@@ -53,11 +53,12 @@ func Make(globs ...string) (err error, sprite Sprite) {
 			mimeType: mime.TypeByExtension(filepath.Ext(file)),
 		}
 
-		bytePointer += len(bytes) + 1
+		bytePointer += len(bytes)
 		sprite.Images = append(sprite.Images, spriteImage)
 
 	}
 
+	sprite.MetadataOffset = bytePointer
 	sprite.Metadata = getMetaDataJSON(sprite)
 
 	return
