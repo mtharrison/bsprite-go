@@ -5,15 +5,15 @@ A go package for creating bsprites
 
 ##Public methods
 
-Generates a bsprite object from one or more glob patterns
+**Make()** Generates a bsprite object from one or more glob patterns
 
     func Make(globs ...string) (err error, sprite Sprite)
     
-Returns the combined generated sprite data   
+**Body()** Returns the combined generated sprite data   
 
     func (sprite Sprite) Body() []byte
 
-Returns the headers to be served with the sprite  
+**Headers()** Returns the headers to be served with the sprite  
     
     func (sprite Sprite) Headers() map[string]string
 
