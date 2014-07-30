@@ -5,6 +5,11 @@ A go package for creating bsprites
 
 ##Public methods
 
+**ServeHTTP()** Satisfies the http.Handler interface so a Sprite object can be passed
+into the `http` package as a handler for a route
+
+    func (sprite Sprite) ServeHTTP(w http.ResponseWriter, r *http.Request)
+
 **Make()** Generates a bsprite object from one or more glob patterns
 
     func Make(globs ...string) (err error, sprite Sprite)
