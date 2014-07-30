@@ -12,6 +12,7 @@ import (
 func (sprite Sprite) Headers() map[string]string {
 	headers := make(map[string]string)
 	headers["X-Metadata-Length"] = strconv.Itoa(len(sprite.Metadata))
+	headers["Content-type"] = "application/octet-stream"
 	return headers
 }
 
