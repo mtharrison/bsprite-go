@@ -1,6 +1,6 @@
 package bsprite
 
-import "http"
+import "net/http"
 
 // ServeHTTP allows us to satisfy the http.Handler interface
 // so Sprite can be passed to http.Handle()
