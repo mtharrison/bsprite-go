@@ -16,7 +16,7 @@ func TestMake(t *testing.T) {
 	defer destroyTempfiles(dirname)
 
 	// Do test logic
-	
+
 }
 
 func makeTempfiles() (files FilesArray, dirname string) {

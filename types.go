@@ -1,13 +1,13 @@
 package bsprite
 
 type Sprite struct {
-	Images   []SpriteImage
-	Metadata []byte
+	Images         []SpriteImage
+	Metadata       string
 	MetadataOffset int
 }
 
 type SpriteImage struct {
-	data     []byte
+	data     string
 	name     string
 	offset   int
 	length   int

@@ -1,6 +1,7 @@
 package bsprite
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -12,7 +13,7 @@ import (
 func (sprite Sprite) Headers() map[string]string {
 	headers := make(map[string]string)
 	headers["X-Metadata-Offset"] = strconv.Itoa(sprite.MetadataOffset)
-	headers["Content-type"] = "application/octet-stream"
+	headers["Content-type"] = "text/plain"
 	return headers
 }
 
@@ -40,20 +41,21 @@ func Make(globs ...string) (err error, sprite Sprite) {
 
 	for _, file := range files {
 		bytes, err := ioutil.ReadFile(file)
+		str64 := base64.StdEncoding.EncodeToString(bytes)
 
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		spriteImage := SpriteImage{
-			data:     bytes,
+			data:     str64,
 			name:     file,
-			length:   len(bytes),
+			length:   len(str64),
 			offset:   bytePointer,
 			mimeType: mime.TypeByExtension(filepath.Ext(file)),
 		}
 
-		bytePointer += len(bytes)
+		bytePointer += len(str64)
 		sprite.Images = append(sprite.Images, spriteImage)
 
 	}
@@ -64,7 +66,7 @@ func Make(globs ...string) (err error, sprite Sprite) {
 	return
 }
 
-func getMetaDataJSON(sprite Sprite) []byte {
+func getMetaDataJSON(sprite Sprite) string {
 	var metadata SpriteMetadata
 
 	for _, i := range sprite.Images {
@@ -79,5 +81,5 @@ func getMetaDataJSON(sprite Sprite) []byte {
 
 	json, _ := json.Marshal(metadata)
 
-	return json
+	return string(json)
 }
